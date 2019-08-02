@@ -1,0 +1,138 @@
+
+  <div class="example-container">
+      <mat-toolbar color="primary" class="example-toolbar">
+          <a class="navbar-brand" href="#"><img src="assets/lowes.png" width=60></a>
+        <h1 class="example-app-name">PAYMENTS TO LOWE'S</h1>
+            <button  mat-icon-button>
+            <mat-icon>menu</mat-icon>
+            </button>
+      </mat-toolbar>
+    </div>
+  <section id="main">
+      <div class="container text-center">
+        <ul>
+          <li><mat-icon>history</mat-icon></li>
+          <li><mat-icon>tune</mat-icon></li>
+          <li><mat-icon>credit_card</mat-icon></li>
+          <li><mat-icon>done</mat-icon></li>
+        </ul>
+      </div>
+    </section>
+    <mat-horizontal-stepper #stepper>
+      <mat-step  state="phone" [editable]="false">
+        <div class="heading_text">
+        <h4>Your account is past due</h4>
+      </div>
+        <div class="heading_text content_text">
+            <p>Hi Curtis, Your Lowe's credit card is past due by </p>
+            <p>$450,00.How would you like to Proceed ?</p>
+        </div>
+          <mat-card class="card">
+              <mat-radio-group
+                aria-labelledby="transaction-radio-group-label"
+                class="example-radio-group"
+                [(ngModel)]="transactionPay" >
+                  <mat-radio-button color="primary" class="transaction-radio-button" *ngFor="let trans of transaction"  [value]="trans.name">
+                  {{trans.name}}
+              </mat-radio-button>
+                 </mat-radio-group>
+            </mat-card>
+      </mat-step>
+      <mat-step  state="forum" [editable]="false">
+        <div class="heading_text">
+        <h4>Choose a payment amount</h4>
+      </div>
+        <div class="heading_text content_text">
+            <p>How much would you like to pay today</p>
+            <h2>${{value}}</h2>
+        </div>
+        <span class="minimum_dollar">${{min}}</span> <span class="max_dollar">${{max}}</span>
+        <mat-slider
+        class="example-margin"
+        [color]="color"
+        [max]="max"
+        [min]="min"
+        [(ngModel)]="value"
+      >
+    </mat-slider>
+
+      </mat-step>
+      <mat-step state="credit_card"[editable]="false">
+            <div class="heading_text">
+              <h4>May your Payment</h4>
+            </div>
+				<mat-card class="card addOnCard" *ngIf="opencreditForm==false">
+                <button mat-button class="payment_methdods" (click)="creditCard()">Credit Card</button>
+                <button mat-button class="payment_methdods">debit Card</button>
+                <button mat-button class="payment_methdods">Checking</button>
+                <button mat-button class="payment_methdods">Savings</button>
+                </mat-card>
+
+                    <div class="example-container" *ngIf="opencreditForm && showCard">
+                        <form  [formGroup]="registerCard" #myForm="ngForm">
+                            <mat-form-field class="card_fields">
+                                <input matInput placeholder="CARDHOLDER NAME" formControlName="CardName" #CardName>
+                            </mat-form-field>
+                            <mat-form-field class="card_fields">
+                                  <input matInput placeholder="CARD NUMBER"  formControlName="CardNumber" #CardNumber>
+                            </mat-form-field>
+                            <div class="matexpry_cvc">
+                              <mat-form-field class="card_fields_min">
+                                    <input matInput placeholder="Expiry"  #CardExpry>
+                              </mat-form-field>
+                              <mat-form-field class="card_fields_min">
+                                    <input matInput placeholder="cvc"  formControlName="CardCvc" #CardCvc>
+                              </mat-form-field>
+                              </div>
+                              <button *ngIf="opencreditForm && showCard" mat-raised-button color="primary" [disabled]="!myForm.form.valid" (click)="addCard(CardName.value,CardNumber.value,CardExpry.value,CardCvc.value)" (click)="showContinue()">Submit</button>
+                          </form>
+                      </div>
+
+                <div *ngIf="showCard==false">
+                  <div class="showCardDetail">
+                  <mat-card>
+                  <img src="assets/debitcard.png">
+                    </mat-card>
+                  </div>
+                  <div class="heading_text content_text">
+                      <h3>Payment amount:<span>${{value}}</span></h3>
+                  </div>
+                </div>
+                <div class="heading_text content_text" *ngIf="opencreditForm==false" >
+                    <p>Payment amount:<span>${{value}}</span></p>
+                </div>
+      </mat-step>
+      <mat-step state="history" [editable]="false" >
+          <div>
+              <div class="icon">
+                  <img src="assets/done.png">
+                </div>
+            <div class="heading_text content_text">
+            <span><h4>CONGRATULATIONS !</h4></span>
+            <h5>YOU HAVE SUBMITTED A PAYMENT OF ${{value}}</h5>
+            </div>
+            </div>
+      </mat-step>
+
+      <!-- Icon overrides. -->
+      <ng-template matStepperIcon="phone">
+        <mat-icon>call_end</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="forum">
+        <mat-icon>forum</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="credit_card">
+          <mat-icon>credit_card</mat-icon>
+        </ng-template>
+        <ng-template matStepperIcon="history">
+            <mat-icon>history</mat-icon>
+          </ng-template>
+</mat-horizontal-stepper>
+    <div>
+
+  <button  *ngIf="!opencreditForm else templatename" mat-raised-button color="primary" (click)="continueStepper(stepper)"  [disabled]="isDisabled" >{{button_value}}</button>
+        <ng-template #templatename>
+            <button *ngIf="showCard==false" mat-raised-button color="primary" (click)="continueStepper(stepper)">{{Pay_value}}</button>
+        </ng-template>
+  </div>
+<router-outlet></router-outlet>
