@@ -1,7 +1,7 @@
 
   <div class="example-container">
       <mat-toolbar color="primary" class="example-toolbar">
-          <a class="navbar-brand" href="#"><img src="assets/lowes.png" width=60></a>
+          <a class="navbar-brand" href="#"><img src="assets/images/lowes.png" width=60></a>
         <h1 class="example-app-name">PAYMENTS TO LOWE'S</h1>
             <button  mat-icon-button>
             <mat-icon>menu</mat-icon>
@@ -74,11 +74,13 @@
                                 <input matInput placeholder="CARDHOLDER NAME" formControlName="CardName" #CardName>
                             </mat-form-field>
                             <mat-form-field class="card_fields">
-                                  <input matInput placeholder="CARD NUMBER"  formControlName="CardNumber" #CardNumber>
+                                  <input matInput placeholder="CARD NUMBER" [(ngModel)]="cardnum" maxlength="90" formControlName="CardNumber" #CardNumber>
                             </mat-form-field>
                             <div class="matexpry_cvc">
                               <mat-form-field class="card_fields_min">
-                                    <input matInput placeholder="Expiry"  #CardExpry>
+                                    <input matInput [matDatepicker]="dp" placeholder="Expiry"  #CardExpry>
+                                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                                    <mat-datepicker #dp></mat-datepicker>
                               </mat-form-field>
                               <mat-form-field class="card_fields_min">
                                     <input matInput placeholder="cvc"  formControlName="CardCvc" #CardCvc>
@@ -91,7 +93,7 @@
                 <div *ngIf="showCard==false">
                   <div class="showCardDetail">
                   <mat-card>
-                  <img src="assets/debitcard.png">
+                  <img src="{{image}}">
                     </mat-card>
                   </div>
                   <div class="heading_text content_text">
@@ -105,7 +107,7 @@
       <mat-step state="history" [editable]="false" >
           <div>
               <div class="icon">
-                  <img src="assets/done.png">
+                  <img src="assets/images/done.png">
                 </div>
             <div class="heading_text content_text">
             <span><h4>CONGRATULATIONS !</h4></span>
@@ -130,9 +132,10 @@
 </mat-horizontal-stepper>
     <div>
 
-  <button  *ngIf="!opencreditForm else templatename" mat-raised-button color="primary" (click)="continueStepper(stepper)"  [disabled]="isDisabled" >{{button_value}}</button>
+  <button  *ngIf="opencreditForm == false else templatename" mat-raised-button color="primary" (click)="continueStepper(stepper)" [disabled]="isDisabled" >{{button_value}}</button>
         <ng-template #templatename>
             <button *ngIf="showCard==false" mat-raised-button color="primary" (click)="continueStepper(stepper)">{{Pay_value}}</button>
+            <button *ngIf="resetting" mat-raised-button color="primary"  mat-button (click)="buttonReset(stepper)">Reset</button>
         </ng-template>
   </div>
 <router-outlet></router-outlet>

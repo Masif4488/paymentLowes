@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {HttpClientModule} from '@angular/common/http';
 import { CreditCardDirectivesModule } from 'angular-cc-library';
+import { MatDatepickerModule } from '@angular/material';
 @NgModule({
   declarations: [
     AppComponent
@@ -20,10 +21,11 @@ import { CreditCardDirectivesModule } from 'angular-cc-library';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    CreditCardDirectivesModule
+    CreditCardDirectivesModule,
+    MatDatepickerModule
   ],
-  providers: [{
-    provide: STEPPER_GLOBAL_OPTIONS ,useValue: {displayDefaultIndicatorType: false}
+  providers: [MatDatepickerModule,{
+    provide: STEPPER_GLOBAL_OPTIONS , useValue: {displayDefaultIndicatorType: false}
 
   }],
   bootstrap: [AppComponent]

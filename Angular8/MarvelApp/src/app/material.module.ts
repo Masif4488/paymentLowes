@@ -14,7 +14,8 @@ import {
   MatProgressBarModule,
   MatDialogModule,
   MatSliderModule,
-  MatDatepickerModule} from '@angular/material';
+  MatDatepickerModule,
+  MatNativeDateModule} from '@angular/material';
 import { NgModule } from '@angular/core';
 
 @NgModule({
@@ -35,9 +36,9 @@ import { NgModule } from '@angular/core';
     MatProgressBarModule,
     MatDialogModule,
     MatSliderModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
-
 })
 
 export class MaterialModule {}
